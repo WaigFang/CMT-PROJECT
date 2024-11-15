@@ -5,7 +5,7 @@ import csv
 
 file = open("Data/Leigh1968_harelynx.csv", "r")
 csvReader = csv.reader(file, delimiter = ',')
-
+print(type(csvReader))
 Years = []
 Hares = []
 Lynxs = []
@@ -18,5 +18,3 @@ for row in csvReader:
     Lynxs.append(Lynx)
 
 
-plt.plot(Years,Lynxs)  
-plt.show()
