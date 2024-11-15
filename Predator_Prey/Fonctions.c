@@ -10,3 +10,4 @@ double predator_density_over_time(double delta, double gamma, int x, int y){
     return (delta*x*y) - (gamma*y);
 }
 
+hs
