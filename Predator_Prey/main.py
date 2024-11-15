@@ -18,11 +18,11 @@ for row in csvReader:
     Lynxs.append(Lynx)
 
 # Reads the csv file and creates multiple lists with the data, this real data can be used to determine if our model is more or less realistic
-plt.title("Populations of Hares and Lynxs in function of time")
+plt.title("Population of Hares and Lynxs in function of time")
 plt.xlabel("Time (Years)")
 plt.ylabel("Population")
-plt.plot(Years,Lynxs, label="Lynx Population")
-plt.plot(Years,Hares, label ="Hare Popuation")
+plt.plot(Years,Lynxs,label="Lynx Population",color="red")
+plt.plot(Years,Hares,label="Hare Popuation",color="blue")
 plt.legend()
 plt.show()
 #Plots both populations in function of time 
