@@ -4,9 +4,11 @@ import matplotlib.pyplot as plt
 import csv
 import ctypes
 import os
+import sys
+from pathlib import Path
 
-#lib_path = os.path.join(os.getcwd(), "Fonctions.dll")
-fonc = ctypes.CDLL("./Fonctions.dll")
+lib_path = Path(sys.path[0]).parent
+fonc = ctypes.CDLL(lib_path.joinpath("bin","clib.so"))
 
 
 
