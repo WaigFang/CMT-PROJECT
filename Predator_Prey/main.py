@@ -2,6 +2,19 @@ import numpy as np
 import math as m
 import matplotlib.pyplot as plt
 import csv
+import ctypes
+import os
+
+#lib_path = os.path.join(os.getcwd(), "Fonctions.dll")
+fonc = ctypes.CDLL("./Fonctions.dll")
+
+
+
+fonc.prey_growth_rate.argtypes = (ctypes.c_double,ctypes.c_double,ctypes.c_int,ctypes.c_int)
+fonc.prey_growth_rate.restype = ctypes.c_double
+
+fonc.predator_growth_rate.argtypes = (ctypes.c_double,ctypes.c_double,ctypes.c_int,ctypes.c_int)
+fonc.predator_growth_rate.restype = ctypes.c_double
 
 
 file = open("Data/Leigh1968_harelynx.csv", "r")
@@ -25,5 +38,7 @@ plt.plot(Years,Lynxs,label="Lynx Population",color="red")
 plt.plot(Years,Hares,label="Hare Popuation",color="blue")
 plt.legend()
 plt.show()
-#Plots both populations in function of time 
+#Plots both populations in function of time
 
+prueba = fonc.prey_growth_rate(0.500,0.03,21000,49000)
+print(prueba)
