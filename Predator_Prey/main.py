@@ -41,6 +41,13 @@ plt.plot(Years,Hares,label="Hare Popuation",color="blue")
 plt.legend()
 plt.show()
 #Plots both populations in function of time
+pruebas= []
+for i in range (len(Hares)):
+    prueba = fonc.prey_growth_rate(0.500,0.03,Hares[i],Lynxs[i])
+    pruebas.append(prueba)
 
-prueba = fonc.prey_growth_rate(0.500,0.03,21000,49000)
-print(prueba)
+plt.plot(Years,pruebas)
+plt.title("Model Predicted Prey Growth Rate")
+plt.xlabel("Time (Years)")
+plt.ylabel("Predicted Prey Growth")
+plt.show() #look for errors as I do not understand what we are computing 
