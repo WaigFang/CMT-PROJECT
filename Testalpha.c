@@ -18,10 +18,6 @@ int main() {
         return 1;
     }
 
-    // Lire le fichier ligne par ligne (ignorer la première ligne si c'est un en-tête)
-    char buffer[100];
-    fgets(buffer, sizeof(buffer), file); // Lire et ignorer la première ligne
-
     // Lire les données à partir du fichier
     while (fscanf(file, "%d,%d,%d", &annees[count], &lievres[count], &lynx[count]) == 3) {
         // Afficher les données lues pour vérifier
@@ -37,15 +33,15 @@ int main() {
     fclose(file);
 
     // Calcul de alpha pour les lièvres
-    double L0 = lievres[0]; // Population initiale des lièvres (1848)
+    double L0 = lievres[0]; // Population initiale des lièvres (première ligne)
     double alpha[MAX_LINES - 1];
 
     // Afficher les valeurs de log(L(t)) et log(L0) avant le calcul de alpha
     for (int i = 1; i < count; i++) {
-        int t = annees[i] - annees[0]; // Temps écoulé depuis 1848 (année de référence)
+        int t = annees[i] - annees[0]; // Temps écoulé depuis la première année
         double logL_t = log(lievres[i]); // Calcul du logarithme de L(t)
-        double logL_0 = log(L0); // Logarithme de L0 (population initiale des lièvres en 1848)
-        
+        double logL_0 = log(L0); // Logarithme de L0 (population initiale des lièvres)
+
         printf("Log(L(%d)) = %.6f, Log(L0) = %.6f\n", annees[i], logL_t, logL_0);
 
         // Calcul de alpha
