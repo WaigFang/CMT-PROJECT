@@ -2,11 +2,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-double prey_growth_rate(double alpha,double beta,int x,int y){ //dx/dt // alpha,beta > 0
+double prey_growth_rate(double alpha,double beta,double x,double y){ //dx/dt // alpha,beta > 0
     return (alpha * x) - (beta * x *y);
 }
 
-double predator_growth_rate(double delta, double gamma, int x, int y){ // dy/dt //delta,gamma > 0
+double predator_growth_rate(double delta, double gamma, double x, double y){ // dy/dt //delta,gamma > 0
     return (delta*x*y) - (gamma*y);
 }
 
@@ -17,7 +17,7 @@ typedef struct {
     double * y; 
 }Timepopulation;
 
-Timepopulation* population_evolution(int maxtime,double alpha,double beta, double delta,double gamma, int x, int y){
+Timepopulation* population_evolution(int maxtime,double alpha,double beta, double delta,double gamma, double x, double y){
     Timepopulation* table = (Timepopulation*)malloc(sizeof(Timepopulation));
 
     if (!table) return NULL;
@@ -32,7 +32,7 @@ Timepopulation* population_evolution(int maxtime,double alpha,double beta, doubl
         free(table);
         return NULL;
     }
-    for (int i =0; i<maxtime;i++){
+    for (int i =1847; i<maxtime;i++){
         table->t[i] = i+1;
         table->x[i] = x;
         table->y[i] = y;
