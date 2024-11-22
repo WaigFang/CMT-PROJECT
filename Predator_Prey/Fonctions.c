@@ -12,13 +12,14 @@ double predator_growth_rate(double delta, double gamma, int x, int y){ // dy/dt 
 
 
 typedef struct {
-    int * t;
+    double * t;
     double * x;
     double * y; 
 }Timepopulation;
 
 Timepopulation* population_evolution(int maxtime,double alpha,double beta, double delta,double gamma, int x, int y){
     Timepopulation* table = (Timepopulation*)malloc(sizeof(Timepopulation));
+
     if (!table) return NULL;
 
     table->t = (double*)malloc(maxtime * sizeof(double));
@@ -31,7 +32,12 @@ Timepopulation* population_evolution(int maxtime,double alpha,double beta, doubl
         free(table);
         return NULL;
     }
+    for (int i =0; i<maxtime;i++){
+        table->t[i] = i+1;
+        table->x[i] = x;
+        table 
 
+    }
 
 }
 
