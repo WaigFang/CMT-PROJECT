@@ -5,7 +5,7 @@
 #define MAX_LINES 100 // Nombre maximum de lignes à lire
 
 int main() {
-    //Déclarer les tableaux pour stocker les données
+    // Déclarer les tableaux pour stocker les données
     int annees[MAX_LINES];
     int lievres[MAX_LINES];
     int lynx[MAX_LINES];  // Bien que nous ne l'utilisions pas dans ce calcul
@@ -24,6 +24,8 @@ int main() {
 
     // Lire les données à partir du fichier
     while (fscanf(file, "%d,%d,%d", &annees[count], &lievres[count], &lynx[count]) == 3) {
+        // Afficher les données lues pour vérifier
+        printf("Année: %d, Lièvres: %d, Lynx: %d\n", annees[count], lievres[count], lynx[count]);
         count++;
         if (count >= MAX_LINES) {
             printf("Erreur : trop de lignes dans le fichier.\n");
@@ -35,12 +37,19 @@ int main() {
     fclose(file);
 
     // Calcul de alpha pour les lièvres
-    double L0 = lievres[0]; // Population initiale des lièvres
+    double L0 = lievres[0]; // Population initiale des lièvres (1848)
     double alpha[MAX_LINES - 1];
 
+    // Afficher les valeurs de log(L(t)) et log(L0) avant le calcul de alpha
     for (int i = 1; i < count; i++) {
-        int t = annees[i] - annees[0]; // Temps écoulé depuis la première année
-        alpha[i - 1] = (log(lievres[i]) - log(L0)) / t; // Formule de alpha
+        int t = annees[i] - annees[0]; // Temps écoulé depuis 1848 (année de référence)
+        double logL_t = log(lievres[i]); // Calcul du logarithme de L(t)
+        double logL_0 = log(L0); // Logarithme de L0 (population initiale des lièvres en 1848)
+        
+        printf("Log(L(%d)) = %.6f, Log(L0) = %.6f\n", annees[i], logL_t, logL_0);
+
+        // Calcul de alpha
+        alpha[i - 1] = (logL_t - logL_0) / t;
     }
 
     // Afficher uniquement les valeurs de alpha
