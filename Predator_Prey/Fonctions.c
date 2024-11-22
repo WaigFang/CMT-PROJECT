@@ -35,10 +35,13 @@ Timepopulation* population_evolution(int maxtime,double alpha,double beta, doubl
     for (int i =0; i<maxtime;i++){
         table->t[i] = i+1;
         table->x[i] = x;
-        table 
-
+        table->y[i] = y;
+        double xnext = x + prey_growth_rate(alpha,beta,x,y);
+        double ynext = y + predator_growth_rate(delta,gamma,x,y);
+        x = xnext;
+        y = ynext;
     }
-
+    return table;
 }
 
 void free_population(Timepopulation* table) {
