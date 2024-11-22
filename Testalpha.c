@@ -12,7 +12,7 @@ int main() {
     int count = 0; // Compteur pour le nombre de lignes lues
 
     // Ouvrir le fichier en lecture
-    FILE* file = fopen("data.csv", "r");
+    FILE* file = fopen("Leigh1968_harelynx.csv", "r");
     if (file == NULL) {
         printf("Erreur : impossible d'ouvrir le fichier.\n");
         return 1;
