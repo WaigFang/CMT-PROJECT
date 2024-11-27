@@ -38,6 +38,15 @@ We used C as our main language, in which we created fonctions, to perform all of
 
 {Use cases for the program}
 
+[Ecological Modeling and Research]
+
+**Wildlife Popluation Management**
+
+The program could be used to analyze predator-prey dynamics in different ecosystems. Helping in the design of conservation strategies, such as estimating the impact of predator culling or prey population boosting. 
+Parameter values (such as $$\beta$$ ) could reveal insights into the stability or imbalance of the ecosystems. 
+Once those parameters are estimated, we could use them to predict future population trends for both species.
+
+
 
 
 {Credits}
