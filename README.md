@@ -4,9 +4,9 @@
 
 [Here we want to explain what our program does]
 
-Our program's aim is to study the population growth and change over time of a system consisting of predators and their's preys. Thanks to the lotka volterra equations.
+Our program's aim is to study the population growth and change over time of a system consisting of predators and their's preys. Thanks to the Lotka-Volterra equations.
 
-**Lotka volterra equations**
+**Lotka-Volterra equations**
 
 $$
 \frac{dx}{dt} = \alpha x(t) - \beta x(t)y(t)
@@ -23,6 +23,8 @@ Where:
 - $$\alpha, \beta\, \delta\$$, and $$\gamma\$$  are positive real parameters that describe the interaction between the species.
 
 To achieve our target we take the actual population data of both species and aproximate the constants alpha, beta, delta and gamma needed for the equations.
+
+**Least squares method**
 
 
 [Choise of tools]
