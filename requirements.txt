@@ -3,5 +3,5 @@ numpy = 1.26.4
 gcc = 13.2.0
 matplotlib = 3.8.4
 
-//what are more requirements ? and how do we find them=> ipykernel, numpy-base, numpydoc, pandas ? 
-
+#what are more requirements ? and how do we find them=> ipykernel, numpy-base, numpydoc, pandas ? 
+#also LICENSE ? run.bash ? Makefile ? .gitignore ? 
