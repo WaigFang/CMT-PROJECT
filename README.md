@@ -4,8 +4,26 @@
 
 [Here we want to explain what our program does]
 
-Our program's aim is to study the population growth and change over time of a system consisting of predators and their's preys. Thanks to the lotka volterra equations. (exemple number one would be lynxes and hares).
-To achieve our target we take the actual population data of both species and aproximate the constants alpha, beta, delta and gamma needed for the equations. 
+Our program's aim is to study the population growth and change over time of a system consisting of predators and their's preys. Thanks to the lotka volterra equations.
+
+**Lotka volterra equations**
+
+$$
+\frac{dx}{dt} = \alpha x(t) - \beta x(t)y(t)
+$$
+
+$$
+\frac{dy}{dt} = \delta x(t)y(t) - \gamma y(t)
+$$
+
+Where:
+
+- $$x(t)\$$ is the population of prey at time $$\(t\)$$,
+- $$y(t)\$$ is the population of predators at time $$\(t\)$$,
+- $$\alpha, \beta\, \delta\$$, and $$\gamma\$$  are positive real parameters that describe the interaction between the species.
+
+To achieve our target we take the actual population data of both species and aproximate the constants alpha, beta, delta and gamma needed for the equations.
+
 
 [Choise of tools]
 
