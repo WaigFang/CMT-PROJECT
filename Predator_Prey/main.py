@@ -69,6 +69,16 @@ plt.legend()
 plt.show()
 
 
+
+# Leigh = pd.read_csv("Data/Leigh1968_harelynx.csv") 
+#plt.plot(Leigh["Time"],Leigh["Prey"],label="Prey"])
+#plt.plot(Leigh["Time"],Leigh["Predator"],label="Predator"])
+# plt.xlabel("Time")
+# plt.ylabel("Population")
+# plt.legend()
+# plt.show()
+
+
 #call the fonction 
 fonc.simulate_lotka_volterra(0.7, 0.5, 0.2, 0.3, 1, 0.5,100,1,b"Data/lotka_volterra_data.csv") # alpha,beta,gamma,delta,x0,y0,max time,dt,file name 
 
