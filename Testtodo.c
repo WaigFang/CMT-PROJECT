@@ -4,7 +4,7 @@
 
 #define MAX_LINES 100 // Nombre maximum de lignes à lire
 
-int main() {
+int main(){
     // Déclarer les tableaux pour stocker les données
     int annees[MAX_LINES];
     int lievres[MAX_LINES];
