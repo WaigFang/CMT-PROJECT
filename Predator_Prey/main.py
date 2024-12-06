@@ -6,6 +6,7 @@ import ctypes
 import os
 import sys
 from pathlib import Path
+import pandas as pd
 
 lib_path = Path(sys.path[0]).parent
 fonc = ctypes.CDLL(lib_path.joinpath("bin","clib.so"))
@@ -68,9 +69,19 @@ plt.legend()
 plt.show()
 
 
+#call the fonction 
+fonc.simulate_lotka_volterra(0.7, 0.4, 0.09, 0.2, 100, 8,100,0.5,b"Data/lotka_volterra_data.csv") # alpha,beta,gamma,delta,x0,y0,max time,dt,file name 
 
-fonc.simulate_lotka_volterra(0.7, 0.5, 0.3, 0.2, 1, 0.5,100,1,b"Data/lotka_volterra_data.csv")
+# Load the data into Python
+data = pd.read_csv("Data/lotka_volterra_data.csv")
 
+# Plot the results
+plt.plot(data["Time"], data["Prey"], label="Prey")
+plt.plot(data["Time"], data["Predator"], label="Predator")
+plt.xlabel("Time")
+plt.ylabel("Population")
+plt.legend()
+plt.show()
 
 
 
