@@ -22,11 +22,11 @@ void simulate_lotka_volterra(double a, double b, double d, double g, double x0, 
 
     double t = 0.0, x = x0, y = y0;
     while (t <= t_max) {
-        fprintf(file, "%.2f,%.5f,%.5f\n", t, x, y);
-        double dx = prey_growth(x, y, a, b);
-        double dy = predator_growth(x, y, d, g);
-        x += dx * dt;
-        y += dy * dt;
+        fprintf(file, "%.2f,%.5f,%.5f\n", t, x, y); // Important it's not same to compute dx and dy and then x and y or dx then x and dy then y 
+        double dx = prey_growth_rate(a, b, x, y);
+        x = x + dx * dt;
+        double dy = predator_growth_rate(d, g, x, y);
+        y = y + dy * dt;
         t += dt;
     }
     fclose(file);
