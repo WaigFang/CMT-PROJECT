@@ -8,7 +8,7 @@ int main() {
     // Déclarer les tableaux pour stocker les données
     int annees[MAX_LINES];
     int lievres[MAX_LINES];
-    int lynx[MAX_LINES];  // Bien que nous ne l'utilisions pas dans ce calcul
+    int lynx[MAX_LINES];  // Données pour les lynx
     int count = 0; // Compteur pour le nombre de lignes lues
 
     // Ouvrir le fichier en lecture
@@ -36,23 +36,40 @@ int main() {
     double L0 = lievres[0]; // Population initiale des lièvres (première ligne)
     double alpha[MAX_LINES - 1];
 
-    // Afficher les valeurs de log(L(t)) et log(L0) avant le calcul de alpha
+    // Calcul de gamma pour les lynx
+    double F0 = lynx[0]; // Population initiale des lynx (1847)
+    double gamma[MAX_LINES - 1];
+
+    // Afficher les valeurs de log(L(t)) et log(L0) avant le calcul de alpha et gamma
     for (int i = 1; i < count; i++) {
         int t = annees[i] - annees[0]; // Temps écoulé depuis la première année
-        double logL_t = log(lievres[i]); // Calcul du logarithme de L(t)
-        double logL_0 = log(L0); // Logarithme de L0 (population initiale des lièvres)
 
-        printf("Log(L(%d)) = %.6f, Log(L0) = %.6f\n", annees[i], logL_t, logL_0);
-
-        // Calcul de alpha
+        // Calcul de alpha pour les lièvres
+        double logL_t = log(lievres[i]); // Logarithme de L(t) pour les lièvres
+        double logL_0 = log(L0); // Logarithme de L0 pour les lièvres
         alpha[i - 1] = (logL_t - logL_0) / t;
+
+        // Calcul de gamma pour les lynx
+        double logF_t = log(lynx[i]); // Logarithme de F(t) pour les lynx
+        double logF_0 = log(F0); // Logarithme de F0 pour les lynx
+        gamma[i - 1] = (logF_0 - logF_t) / t;
+
+        // Affichage des valeurs pour vérifier
+        printf("Année: %d\n", annees[i]);
+        printf("Log(L(%d)) = %.6f, Log(L0) = %.6f, Alpha = %.6f\n", annees[i], logL_t, logL_0, alpha[i - 1]);
+        printf("Log(F(%d)) = %.6f, Log(F0) = %.6f, Gamma = %.6f\n", annees[i], logF_t, logF_0, gamma[i - 1]);
     }
 
-    // Afficher uniquement les valeurs de alpha
+    // Afficher uniquement les valeurs de alpha et gamma
+    printf("\nAlpha values for hares:\n");
     for (int i = 1; i < count; i++) {
         printf("%.6f\n", alpha[i - 1]); // Affiche alpha pour chaque année
     }
 
+    printf("\nGamma values for lynx:\n");
+    for (int i = 1; i < count; i++) {
+        printf("%.6f\n", gamma[i - 1]); // Affiche gamma pour chaque année
+    }
+
     return 0;
 }
-//hola buenos dias
