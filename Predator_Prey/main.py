@@ -63,18 +63,23 @@ plt.show()
 
 
 
-#otra prueba mas
-result = fonc.population_evolution(56, 0.4, 0.5, 0.09, 2.0, 21000, 49000)
-if not result:
-    raise MemoryError("Failed to allocate memory in C code.")
 
-# Extract data from the C struct
-# time = np.array([result.contents.t[i] for i in range(56)])
-# prey = np.array([result.contents.x[i] for i in range(56)])
-# predator = np.array([result.contents.y[i] for i in range(56)])
-# time = np.ctypeslib.as_array(result.contents.t, shape=(56,))
-# prey = np.ctypeslib.as_array(result.contents.x, shape=(56,))
-# predator = np.ctypeslib.as_array(result.contents.y, shape=(56,))
+
+
+
+
+
+
+
+#otra prueba mas
+# result = fonc.population_evolution(56,0.030484, 0.0000057, 0.103447, -0.000020, 21000, 49000)
+# if not result:
+#     raise MemoryError("Failed to allocate memory in C code.")
+
+# # Extract data from the C struct
+# time = np.ctypeslib.as_array(result.contents.t,shape=(56,))
+# prey = np.ctypeslib.as_array(result.contents.x ,shape=(56,))
+# predator = np.ctypeslib.as_array(result.contents.y,shape=(56,))
 # print(time)
 # print(prey)
 # print(predator)
