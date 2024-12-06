@@ -18,6 +18,13 @@ fonc.prey_growth_rate.restype = ctypes.c_double
 fonc.predator_growth_rate.argtypes = (ctypes.c_double,ctypes.c_double,ctypes.c_int,ctypes.c_int)
 fonc.predator_growth_rate.restype = ctypes.c_double
 
+fonc.simulate_lotka_volterra.argtypes = [
+    ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, 
+    ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, 
+    ctypes.c_char_p
+]
+
+fonc.simulate_lotka_volterra.restype = None
 
 class Timepopulation(ctypes.Structure):
     _fields_ = [
@@ -62,7 +69,7 @@ plt.show()
 
 
 
-
+fonc.simulate_lotka_volterra(0.7, 0.5, 0.3, 0.2, 1, 0.5,100,1,b"Data/lotka_volterra_data.csv")
 
 
 
