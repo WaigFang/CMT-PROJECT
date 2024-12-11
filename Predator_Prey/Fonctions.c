@@ -48,6 +48,37 @@ void simulate_lotka_volterra(double a, double b, double d, double g, double x0, 
 }
 
 
+// sensitivity test 
+void sensitivity_test(
+    double d, double g, double x, double y, double t_max, double dt,
+    double a_min, double a_max, double a_step,
+    double b_min, double b_max, double b_step,
+    const char *filename) {
+
+    FILE *file = fopen(filename, "w");
+    if (!file) {
+        perror("Error opening file");
+        return;
+    }
+    fprintf(file, "a,b,FinalPrey,FinalPredators\n");
+
+    for (double a = a_min; a <= a_max; a += a_step) {
+        for (double b = b_min; b <= b_max; b += b_step) {
+            double final_prey, final_predators;
+            simulate_lotka_volterra(a, b, d, g, x, y, t_max, dt); // +file + &final_prey, &final_predators should not work wait for changes 
+            fprintf(file, "%.2f,%.2f,%.5f,%.5f\n", a, b, final_prey, final_predators);
+        }
+    }
+
+    fclose(file);
+}
+
+
+
+
+
+// we are not using this function
+
 typedef struct {
     double * t;
     double * x;

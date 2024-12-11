@@ -80,7 +80,8 @@ plt.show()
 
 
 #call the fonction 
-fonc.simulate_lotka_volterra(0.7, 0.5, 0.2, 0.3, 1, 0.5,100,1,b"Data/lotka_volterra_data.csv") # alpha,beta,gamma,delta,x0,y0,max time,dt,file name 
+fonc.simulate_lotka_volterra(0.7, 0.5, 0.2, 0.3, 1, 2,100,1,b"Data/lotka_volterra_data.csv") # alpha,beta,gamma,delta,x0,y0,max time,dt,file name 
+# a = 1 , b = 0.2 , d = 0.5 , g = 0.2 with x=1 y=2 works also for x=y=2
 
 # Load the data into Python
 data = pd.read_csv("Data/lotka_volterra_data.csv")
@@ -92,8 +93,6 @@ plt.xlabel("Time")
 plt.ylabel("Population")
 plt.legend()
 plt.show()
-
-
 
 
 
