@@ -48,70 +48,50 @@ fonc.free_population.argtypes = [ctypes.POINTER(Timepopulation)]
 fonc.free_population.restype = None
 
 
-
-# file = open("Data/Leigh1968_harelynx.csv", "r") #change with pd.read etc.. 
-# csvReader = csv.reader(file, delimiter = ',')
-# Years = []
-# Hares = []
-# Lynxs = []
-# for row in csvReader: 
-#     Year = int(row[0])
-#     Years.append(Year)
-#     Hare = int(row[1])
-#     Hares.append(Hare)
-#     Lynx = int(row[2])
-#     Lynxs.append(Lynx)
-
-# # Reads the csv file and creates multiple lists with the data, this real data can be used to determine if our model is more or less realistic
-# plt.title("Population of Hares and Lynxs in function of time")
-# plt.xlabel("Time (Years)")
-# plt.ylabel("Population")
-# plt.plot(Years,Lynxs,label="Lynx Population",color="red")
-# plt.plot(Years,Hares,label="Hare Popuation",color="blue")
-# plt.legend()
-# plt.show()
-
-
-
 Leigh = pd.read_csv("Data/Leigh1968_harelynx.csv") 
 plt.plot(Leigh["Time"],Leigh["Prey"],label="Prey")
 plt.plot(Leigh["Time"],Leigh["Predator"],label="Predator")
+plt.title("Hare and Lynx Population over Time")
 plt.xlabel("Time")
 plt.ylabel("Population")
 plt.legend()
+# plt.savefig("Outputs/Hare_and_Lynx_Populations.png")
 plt.show()
+
+a = 0.7 
+b = 0.5
+d = 0.2 
+g = 0.3
+x0 = 1.0 
+y0 = 2.0  
 
 
 #call the fonction 
-fonc.simulate_lotka_volterra(0.7, 0.5, 0.2, 0.3, 1.0, 2.0,100.0,1.0,b"Data/lotka_volterra_data.csv",b"Data/dx_dy_data.csv") # alpha,beta,gamma,delta,x0,y0,max time,dt,file name 
+fonc.simulate_lotka_volterra(a, b, d, g, x0, y0,100.0,1.0,b"Outputs/lotka_volterra_data.csv",b"Outputs/dx_dy_data.csv") # alpha,beta,gamma,delta,x0,y0,max time,dt,file name 
 # a = 1 , b = 0.2 , d = 0.5 , g = 0.2 with x=1 y=2 works also for x=y=2
 
 # Load the data into Python
-data = pd.read_csv("Data/lotka_volterra_data.csv")
+data = pd.read_csv("Outputs/lotka_volterra_data.csv")
 
 # Plot the results
 plt.plot(data["Time"], data["Prey"], label="Prey")
 plt.plot(data["Time"], data["Predator"], label="Predator")
 plt.xlabel("Time")
 plt.ylabel("Population")
+plt.title("Lotka-Volterra Simulation of Prey and Predator Population over Time")
 plt.legend()
+# plt.savefig("Outputs/Lotka_Volterra_Simulation.png")
 plt.show()
 
 
 #here we get the solution but we want to be able to find a  way of using C 
 def simulate_lotka_volterra(u, t, a, b, d, g):
-    x, y = u  # x is prey (hares), z is predator (lynx)
+    x, y = u  # x is prey (hares), y is predator (lynx)
     dxdt =fonc.prey_growth_rate(a,b,x,y)# Prey growth and predation
     dydt =fonc.predator_growth_rate(d,g,x,y)# Predator reproduction and death
     return [dxdt, dydt]
-# Parameters
-a = 0.7  # Prey growth rate
-b = 0.5  # Predation rate
-d = 0.2  # Predator reproduction rate
-g = 0.3  # Predator death rate
-x0 = 1.0  # Initial hare population
-y0 = 2.0  # Initial lynx population     
-# Initial conditions: [Prey, Predator]
+
+
 initial_conditions = [x0, y0]
 t = np.linspace(0, 100, 1000)
 solver = odeint(simulate_lotka_volterra,initial_conditions,t,args=(a, b, d, g))
@@ -120,13 +100,20 @@ predator = solver[:, 1]
 plt.figure(figsize=(10, 6))
 plt.plot(t, prey, label='Hare Population (Prey)', color='blue')
 plt.plot(t, predator, label='Lynx Population (Predator)', color='red')
-plt.title('Lotka-Volterra Model: Hare and Lynx Populations')
+plt.title('Solutions of the Lotka-Volterra equation')
 plt.xlabel('Time')
 plt.ylabel('Population')
 plt.legend()
-plt.grid(True)
+# plt.savefig("Outputs/Lotka_Volterra_Solutions.png")
 plt.show()
 
+plt.plot(prey,predator,label="Population",color="blue")
+plt.xlabel("Hare Population")
+plt.ylabel("Lynx Population")
+plt.title("Hare and Lynx Density")
+plt.legend()
+# plt.savefig("Outputs/Hare_and_Lynx_Density.png")
+plt.show()
 
 #otra prueba mas
 # result = fonc.population_evolution(56,0.030484, 0.0000057, 0.103447, -0.000020, 21000, 49000)
