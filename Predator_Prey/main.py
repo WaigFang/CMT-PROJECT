@@ -14,17 +14,17 @@ fonc = ctypes.CDLL(lib_path.joinpath("bin","clib.so"))
 
 
 
-fonc.prey_growth_rate.argtypes = (ctypes.c_double,ctypes.c_double,ctypes.c_int,ctypes.c_int)
+fonc.prey_growth_rate.argtypes = (ctypes.c_double,ctypes.c_double,ctypes.c_double,ctypes.c_double)
 fonc.prey_growth_rate.restype = ctypes.c_double
 
-fonc.predator_growth_rate.argtypes = (ctypes.c_double,ctypes.c_double,ctypes.c_int,ctypes.c_int)
+fonc.predator_growth_rate.argtypes = (ctypes.c_double,ctypes.c_double,ctypes.c_double,ctypes.c_double)
 fonc.predator_growth_rate.restype = ctypes.c_double
 
 fonc.simulate_lotka_volterra.argtypes = [
+   ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, 
     ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, 
-    ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, 
-    ctypes.c_char_p
-]
+    ctypes.c_char_p,ctypes.c_char_p
+ ]
 
 fonc.simulate_lotka_volterra.restype = None
 
@@ -36,16 +36,18 @@ class Timepopulation(ctypes.Structure):
     ]
 fonc.population_evolution.restype = ctypes.POINTER(Timepopulation)
 fonc.population_evolution.argtypes = [
-    ctypes.c_int,  # maxtime
-    ctypes.c_double,  # alpha
-    ctypes.c_double,  # beta
-    ctypes.c_double,  # delta
-    ctypes.c_double,  # gamma
-    ctypes.c_double,  # x
-    ctypes.c_double   # y
+    ctypes.c_int,  
+    ctypes.c_double,  
+    ctypes.c_double,  
+    ctypes.c_double,  
+    ctypes.c_double,  
+    ctypes.c_double, 
+    ctypes.c_double   
 ]
 fonc.free_population.argtypes = [ctypes.POINTER(Timepopulation)]
 fonc.free_population.restype = None
+
+
 
 # file = open("Data/Leigh1968_harelynx.csv", "r") #change with pd.read etc.. 
 # csvReader = csv.reader(file, delimiter = ',')
@@ -81,7 +83,7 @@ plt.show()
 
 
 #call the fonction 
-fonc.simulate_lotka_volterra(0.7, 0.5, 0.2, 0.3, 1, 2,100,1,b"Data/lotka_volterra_data.csv") # alpha,beta,gamma,delta,x0,y0,max time,dt,file name 
+fonc.simulate_lotka_volterra(0.7, 0.5, 0.2, 0.3, 1.0, 2.0,100.0,1.0,b"Data/lotka_volterra_data.csv",b"Data/dx_dy_data.csv") # alpha,beta,gamma,delta,x0,y0,max time,dt,file name 
 # a = 1 , b = 0.2 , d = 0.5 , g = 0.2 with x=1 y=2 works also for x=y=2
 
 # Load the data into Python
@@ -96,22 +98,21 @@ plt.legend()
 plt.show()
 
 
-
 #here we get the solution but we want to be able to find a  way of using C 
-def simulate_lotka_volterra(y, t, a, b, d, g):
-    x, z = y  # x is prey (hares), z is predator (lynx)
-    dxdt = a * x - b * x * z  # Prey growth and predation
-    dzdt = d * x * z - g * z  # Predator reproduction and death
-    return [dxdt, dzdt]
+def simulate_lotka_volterra(u, t, a, b, d, g):
+    x, y = u  # x is prey (hares), z is predator (lynx)
+    dxdt =fonc.prey_growth_rate(a,b,x,y)# Prey growth and predation
+    dydt =fonc.predator_growth_rate(d,g,x,y)# Predator reproduction and death
+    return [dxdt, dydt]
 # Parameters
 a = 0.7  # Prey growth rate
 b = 0.5  # Predation rate
 d = 0.2  # Predator reproduction rate
 g = 0.3  # Predator death rate
 x0 = 1.0  # Initial hare population
-z0 = 2.0  # Initial lynx population     
+y0 = 2.0  # Initial lynx population     
 # Initial conditions: [Prey, Predator]
-initial_conditions = [x0, z0]
+initial_conditions = [x0, y0]
 t = np.linspace(0, 100, 1000)
 solver = odeint(simulate_lotka_volterra,initial_conditions,t,args=(a, b, d, g))
 prey = solver[:, 0]
