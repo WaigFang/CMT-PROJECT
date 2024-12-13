@@ -7,6 +7,7 @@ import os
 import sys
 from pathlib import Path
 import pandas as pd
+from scipy.integrate import odeint
 
 lib_path = Path(sys.path[0]).parent
 fonc = ctypes.CDLL(lib_path.joinpath("bin","clib.so"))
@@ -46,37 +47,37 @@ fonc.population_evolution.argtypes = [
 fonc.free_population.argtypes = [ctypes.POINTER(Timepopulation)]
 fonc.free_population.restype = None
 
-file = open("Data/Leigh1968_harelynx.csv", "r")
-csvReader = csv.reader(file, delimiter = ',')
-Years = []
-Hares = []
-Lynxs = []
-for row in csvReader: 
-    Year = int(row[0])
-    Years.append(Year)
-    Hare = int(row[1])
-    Hares.append(Hare)
-    Lynx = int(row[2])
-    Lynxs.append(Lynx)
+# file = open("Data/Leigh1968_harelynx.csv", "r") #change with pd.read etc.. 
+# csvReader = csv.reader(file, delimiter = ',')
+# Years = []
+# Hares = []
+# Lynxs = []
+# for row in csvReader: 
+#     Year = int(row[0])
+#     Years.append(Year)
+#     Hare = int(row[1])
+#     Hares.append(Hare)
+#     Lynx = int(row[2])
+#     Lynxs.append(Lynx)
 
-# Reads the csv file and creates multiple lists with the data, this real data can be used to determine if our model is more or less realistic
-plt.title("Population of Hares and Lynxs in function of time")
-plt.xlabel("Time (Years)")
-plt.ylabel("Population")
-plt.plot(Years,Lynxs,label="Lynx Population",color="red")
-plt.plot(Years,Hares,label="Hare Popuation",color="blue")
-plt.legend()
-plt.show()
-
-
-
-# Leigh = pd.read_csv("Data/Leigh1968_harelynx.csv") 
-#plt.plot(Leigh["Time"],Leigh["Prey"],label="Prey"])
-#plt.plot(Leigh["Time"],Leigh["Predator"],label="Predator"])
-# plt.xlabel("Time")
+# # Reads the csv file and creates multiple lists with the data, this real data can be used to determine if our model is more or less realistic
+# plt.title("Population of Hares and Lynxs in function of time")
+# plt.xlabel("Time (Years)")
 # plt.ylabel("Population")
+# plt.plot(Years,Lynxs,label="Lynx Population",color="red")
+# plt.plot(Years,Hares,label="Hare Popuation",color="blue")
 # plt.legend()
 # plt.show()
+
+
+
+Leigh = pd.read_csv("Data/Leigh1968_harelynx.csv") 
+plt.plot(Leigh["Time"],Leigh["Prey"],label="Prey")
+plt.plot(Leigh["Time"],Leigh["Predator"],label="Predator")
+plt.xlabel("Time")
+plt.ylabel("Population")
+plt.legend()
+plt.show()
 
 
 #call the fonction 
@@ -96,6 +97,34 @@ plt.show()
 
 
 
+#here we get the solution but we want to be able to find a  way of using C 
+def simulate_lotka_volterra(y, t, a, b, d, g):
+    x, z = y  # x is prey (hares), z is predator (lynx)
+    dxdt = a * x - b * x * z  # Prey growth and predation
+    dzdt = d * x * z - g * z  # Predator reproduction and death
+    return [dxdt, dzdt]
+# Parameters
+a = 0.7  # Prey growth rate
+b = 0.5  # Predation rate
+d = 0.2  # Predator reproduction rate
+g = 0.3  # Predator death rate
+x0 = 1.0  # Initial hare population
+z0 = 2.0  # Initial lynx population     
+# Initial conditions: [Prey, Predator]
+initial_conditions = [x0, z0]
+t = np.linspace(0, 100, 1000)
+solver = odeint(simulate_lotka_volterra,initial_conditions,t,args=(a, b, d, g))
+prey = solver[:, 0]
+predator = solver[:, 1]
+plt.figure(figsize=(10, 6))
+plt.plot(t, prey, label='Hare Population (Prey)', color='blue')
+plt.plot(t, predator, label='Lynx Population (Predator)', color='red')
+plt.title('Lotka-Volterra Model: Hare and Lynx Populations')
+plt.xlabel('Time')
+plt.ylabel('Population')
+plt.legend()
+plt.grid(True)
+plt.show()
 
 
 #otra prueba mas
