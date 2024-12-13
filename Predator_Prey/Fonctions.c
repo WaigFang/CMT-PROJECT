@@ -19,7 +19,7 @@ double prey_growth_rate_2(double a, double b, double x, double y, double K) { //
 double predator_growth_rate_2(double d, double g, double x, double y, double h) { // dy/dt
     return d * (x * y) / (h + x) - g * y;
 }
-
+//not using this for the moment
 
 
 // Lotka-Volterra simulation
