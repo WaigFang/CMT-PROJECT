@@ -39,7 +39,7 @@ Overview:
 
 Structure in the directory "*Predator_Prey/*":
 - "*Fonctions.c*":
-  - contains the majority of coded functions used in our simulation,
+  - contains the majority of coded functions used in our simulation, such as the Lotka-Volterra equations or Sensibility functions,
   - is exported as "*bin/clib.so*" as a module,
 - "*main.py*":
   - imports "*bin/clib.so*" as a module
