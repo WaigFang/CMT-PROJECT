@@ -45,7 +45,7 @@ Structure in the directory "*Predator_Prey/*":
   - imports "*bin/clib.so*" as a module
   - reads in "*Data/Leigh1968_harelynx.csv*" and makes a plot,
   - uses all of functions provieded by "*clib.so*" to find the solution to the 
-    Lotka_Volterra equations and plots them,
+    Lotka-Volterra equations and plots them,
 
 (FALTA ALGO AQUI CREO PERO NO SE QUE ES PROJECT ROOT DIRECTORY IS ASSIGNED USING ?) 
 
