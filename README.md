@@ -52,9 +52,9 @@ Structure in the directory "*Predator_Prey/*":
 
 ## Instructions
 
-To reproduce results in the report, 2 steps should be followed: 
-1. Compile the shared library,
-2. Run the program,
+To reproduce results in the report, ¿[2]? steps should be followed: 
+[1. Compile the shared library,
+2. Run the program,]
 
 EXPLAIN 
 
