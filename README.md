@@ -24,6 +24,10 @@ Where:
 
 To achieve our target we take the actual population data of both species and aproximate the constants alpha, beta, delta and gamma needed for the equations.
 
+The program will:
+1. Read in Data
+   Data 
+
 **Least squares method**
 
 
