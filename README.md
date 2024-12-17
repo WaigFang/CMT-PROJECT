@@ -1,35 +1,30 @@
 # CMT-PROJECT 
 
-{Project description}
+## Project description
 
 [Here we want to explain what our program does]
 
 Our program's aim is to study the population growth and change over time of a system consisting of predators and their's preys. Thanks to the Lotka-Volterra equations.
 
-**Lotka-Volterra equations**
-
-$$
-\frac{dx}{dt} = \alpha x(t) - \beta x(t)y(t)
-$$
-
-$$
-\frac{dy}{dt} = \delta x(t)y(t) - \gamma y(t)
-$$
-
-Where:
-
-- $$x(t)\$$ is the population of prey at time $$\(t\)$$,
-- $$y(t)\$$ is the population of predators at time $$\(t\)$$,
-- $$\alpha, \beta\, \delta\$$, and $$\gamma\$$  are positive real parameters that describe the interaction between the species.
-
-To achieve our target we take the actual population data of both species and aproximate the constants alpha, beta, delta and gamma needed for the equations.
-
 The program will:
-1. Read in Data
-   Data 
+1. Read Hare and lynx data found in "*Data/Leigh1968_harelynx.csv*",
+2. Generate a table with dH and dL in "*Outputs/dx_dy_data.csv*", and of population in "*Outputs/Lotka_Volterra_Data.csv*",
+3. Plot the population over time in "*Outputs/Lotka_Volterra_Simulation.png*",
+4. Plot solutions over time in "*Outputs/Lotka_Volterra_Solutions.png*",
+5. Plot population density in "*Outputs/Hare_and_Lynx_Density.png*",
+6. (SENSIBILITY)
 
-**Least squares method**
+## Project structure
+- "*Data/*" contains input data,
+- "*Outputs/*" contains program outputs,
+- "*Predator_Prey/*" contains program code,
+- "*bin/*" contains the shared library between C and Python,
+- "*Docs/*" contains a notebook discussing the results and the overall code,
 
+## Inputs and Outputs
+
+Inputs:
+- "*Data/Leigh1968_harelynx.csv*" is a 
 
 [Choise of tools]
 
