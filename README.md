@@ -10,7 +10,8 @@ The program will:
 3. Plot the population over time in "*Outputs/Lotka_Volterra_Simulation.png*",
 4. Plot solutions over time in "*Outputs/Lotka_Volterra_Solutions.png*",
 5. Plot population density in "*Outputs/Hare_and_Lynx_Density.png*",
-6. (SENSIBILITY)
+6. Plot the sensitivity of alpha and beta for the population density in "*Outputs/Sensitivity_Test.png"*",
+7. 
 
 ## Project structure
 - "*Data/*" contains input data,
@@ -30,7 +31,8 @@ Outputs:
 - "*Outputs/Lotka_Volterra_Simulation.png*" is an image file,
 - "*Outputs/Lotka_Volterra_Solutions.png*", is an image file,
 - "*Outputs/Hare_and_Lynx_Density.png*" is an image file,
-- (SENSIBILITY.png) is an image file. 
+- "*Outputs/Sensitivity_Test.png"*" is an image file,
+- "*XXXX*" is an image file.
 
 ### Implementation details
 Overview: 
