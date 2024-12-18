@@ -8,6 +8,8 @@ import sys
 from pathlib import Path
 import pandas as pd
 from scipy.integrate import odeint
+import seaborn as sns
+import itertools
 
 #locate the clib.so library 
 lib_path = Path(sys.path[0]).parent 
@@ -22,6 +24,11 @@ func.predator_growth_rate.restype = ctypes.c_double
 
 func.simulate_lotka_volterra.argtypes = (ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_char_p,ctypes.c_char_p)
 func.simulate_lotka_volterra.restype = None
+
+func.sensitivity_test.argtypes = (ctypes.c_double,ctypes.c_double,ctypes.c_double,ctypes.c_double,ctypes.c_double,ctypes.c_double,ctypes.c_double,ctypes.c_double,ctypes.c_double,ctypes.c_double,ctypes.c_char_p)
+func.sensitivity_test.restype = None
+
+
 
 #Reads the .csv and plot (pd.read_csv much faster than open etc...)
 Leigh = pd.read_csv("Data/Leigh1968_harelynx.csv") 
@@ -92,103 +99,108 @@ plt.legend()
 plt.show()
 
 
-#Revise this to get actually what we want 
-t_max = 100
-dt = 1
-# Define the new function for predator-prey dynamics
-def prey_predator_dynamics(a, b, d, g, x, y, dt):
-    dx = a * x - b * x * y  # Prey growth equation
-    dy = d * x * y - g * y  # Predator growth equation
-    return dx, dy
 
-# Simulate the new predator-prey model over time
-def simulate_preypredator_model(a, b, d, g, x0, y0, t_max, dt):
-    times = np.arange(0, t_max, dt)
-    prey_pop = np.zeros(len(times))
-    predator_pop = np.zeros(len(times))
-    
-    # Initial conditions
-    prey_pop[0] = x0
-    predator_pop[0] = y0
+a_values = np.linspace(0.75, 1.25, 10)  # Range of a values
+b_values = np.linspace(0.15, 0.25, 10)  # Range of b values
+# Perform the sensitivity test
+# Perform the sensitivity test
+results_prey = []
+results_predator = []
+t = np.linspace(0, 50, 200)  # Time points
+for a in a_values:
+    for b in b_values:
+        solver = odeint(simulate_lotka_volterra, initial_conditions, t, args=(a, b, d, g))
+        prey = solver[:, 0]
+        predator = solver[:, 1]
+        results_prey.append(prey)
+        results_predator.append(predator)
 
-    # Iterate over time steps
-    for i in range(1, len(times)):
-        dx, dy = prey_predator_dynamics(a, b, d, g, prey_pop[i-1], predator_pop[i-1], dt)
-        prey_pop[i] = prey_pop[i-1] + dx * dt
-        predator_pop[i] = predator_pop[i-1] + dy * dt
-        
-        # Ensure populations don't go negative
-        prey_pop[i] = max(prey_pop[i], 0)
-        predator_pop[i] = max(predator_pop[i], 0)
-    
-    return times, prey_pop, predator_pop
+# Convert results to a DataFrame for analysis and plotting
+data_prey = pd.DataFrame(results_prey).T
+data_predator = pd.DataFrame(results_predator).T
 
-# Time range
-times = np.linspace(0, 50, 1000)  # Time from 0 to 50, with 1000 time steps
+# Calculate mean and standard deviation for prey and predator populations
+mean_prey = data_prey.mean(axis=1)
+std_prey = data_prey.std(axis=1)
+mean_predator = data_predator.mean(axis=1)
+std_predator = data_predator.std(axis=1)
 
-# Parameter ranges
-alpha_range = [0.75, 1.25]  # Range for 'a' (prey growth rate)
-beta_range = [0.15, 0.25]  # Range for 'b' (predation rate)
+# Plot filled plot of the max a and max b and also mean ± sd
+plt.figure(figsize=(14, 6))
 
-# Create a grid of alpha and beta values
-alpha_values = np.linspace(alpha_range[0], alpha_range[1], 5)  # 5 values for alpha
-beta_values = np.linspace(beta_range[0], beta_range[1], 5)    # 5 values for beta
+plt.subplot(1, 2, 1)
+plt.fill_between(t, data_prey.max(axis=1), color="lightblue", alpha=0.3, label="Max-Min")
+plt.fill_between(t, mean_prey - std_prey, mean_prey + std_prey, color="blue", alpha=0.3, label="Mean ± SD Prey Population")
+plt.plot(t, mean_prey, color="blue", label="Mean")
+plt.title("Prey")
+plt.xlabel("Time")
+plt.ylabel("Density Population")
+plt.legend(loc='center left', bbox_to_anchor=(1.05, 0.5))
 
-# Prepare storage for results
-prey_results = []
-predator_results = []
+plt.subplot(1, 2, 2)
+plt.fill_between(t, data_predator.max(axis=1), color="lightcoral", alpha=0.3, label="Max-Min")
+plt.fill_between(t, mean_predator - std_predator, mean_predator + std_predator, color="red", alpha=0.3, label="Mean ± SD Predator Population")
+plt.plot(t, mean_predator, color="red", label="Mean")
+plt.title("Predator")
+plt.xlabel("Time")
+plt.ylabel("Density Population")
+plt.legend(loc='center left', bbox_to_anchor=(1.05, 0.5))
 
-# Simulate for each combination of alpha and beta
-for alpha in alpha_values:
-    for beta in beta_values:
-        times, prey_pop, predator_pop = simulate_preypredator_model(alpha, beta, d, g, x0, y0, t_max, dt)
-        prey_results.append(prey_pop)
-        predator_results.append(predator_pop)
-
-# Convert results to arrays
-prey_results = np.array(prey_results)
-predator_results = np.array(predator_results)
-
-# Calculate min, max, mean, and standard deviation
-prey_min = np.min(prey_results, axis=0)
-prey_max = np.max(prey_results, axis=0)
-prey_mean = np.mean(prey_results, axis=0)
-prey_std = np.std(prey_results, axis=0)
-
-predator_min = np.min(predator_results, axis=0)
-predator_max = np.max(predator_results, axis=0)
-predator_mean = np.mean(predator_results, axis=0)
-predator_std = np.std(predator_results, axis=0)
-
-# Plotting
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 7))
-
-# Plot for Prey
-ax1.fill_between(times, prey_min, prey_max, color='lightblue', alpha=0.4, label='Min-Max')
-ax1.fill_between(times, prey_mean - prey_std, prey_mean + prey_std, color='skyblue', alpha=0.6, label='Mean ± SD')
-ax1.plot(times, prey_mean, color='darkblue', linewidth=2, label='Mean')
-ax1.set_title("Prey", fontsize=14, fontweight='bold')
-ax1.set_xlabel("Time", fontsize=12)
-ax1.set_ylabel("Population density", fontsize=12)
-ax1.legend()
-
-# Plot for Predator
-ax2.fill_between(times, predator_min, predator_max, color='lightblue', alpha=0.4, label='Min-Max')
-ax2.fill_between(times, predator_mean - predator_std, predator_mean + predator_std, color='skyblue', alpha=0.6, label='Mean ± SD')
-ax2.plot(times, predator_mean, color='darkblue', linewidth=2, label='Mean')
-ax2.set_title("Predator", fontsize=14, fontweight='bold')
-ax2.set_xlabel("Time", fontsize=12)
-ax2.set_ylabel("Population density", fontsize=12)
-ax2.legend()
-
-# Overall title
-fig.suptitle("Sensitivity to alpha and beta", fontsize=16)
-
-# Adjust layout
-plt.tight_layout(rect=[0, 0, 1, 0.96])  # Adjust for the overall title
+plt.suptitle("Sensitivity to alpha and beta", fontsize=16)
+plt.tight_layout(rect=[0, 0.03, 1, 0.95])
 plt.show()
 
-#otra prueba mas
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# func.sensitivity_test(0.75,1.5,0.15,0.25,0.5,0.2,1,2,100,1,b"Outputs/Sensitivity_test.csv")
+
+# # Example 1: Heatmap for average predator population vs Alpha and Beta
+# dataset = pd.read_csv("Outputs/Sensitivity_test.csv")
+# heatmap_data = data.groupby(['Alpha', 'Beta']).mean().reset_index()
+# heatmap_pivot = heatmap_data.pivot("Alpha", "Beta", "Predator")
+# plt.figure(figsize=(10, 8))
+# sns.heatmap(heatmap_pivot, cmap="coolwarm", annot=False, cbar_kws={'label': 'Avg Predator Population'})
+# plt.title("Average Predator Population Sensitivity to Alpha and Beta")
+# plt.xlabel("Beta")
+# plt.ylabel("Alpha")
+# plt.show()
+
+# # Example 2: Line plots of prey and predator population over time for a specific Alpha, Beta pair
+# alpha_value = 1.0  # Example value
+# beta_value = 0.2   # Example value
+
+# subset = data[(data['Alpha'] == alpha_value) & (data['Beta'] == beta_value)]
+
+# plt.figure(figsize=(10, 6))
+# plt.plot(subset['Time'], subset['Prey'], label="Prey Population", color="blue")
+# plt.plot(subset['Time'], subset['Predator'], label="Predator Population", color="red")
+# plt.title(f"Population Dynamics (Alpha={alpha_value}, Beta={beta_value})")
+# plt.xlabel("Time")
+# plt.ylabel("Population")
+# plt.legend()
+# plt.show()
+
 # result = func.population_evolution(56,0.030484, 0.0000057, 0.103447, -0.000020, 21000, 49000)
 # if not result:
 #     raise MemoryError("Failed to allocate memory in C code.")
