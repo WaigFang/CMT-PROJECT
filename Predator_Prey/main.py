@@ -28,7 +28,12 @@ func.simulate_lotka_volterra.restype = None
 func.sensitivity_test.argtypes = (ctypes.c_double,ctypes.c_double,ctypes.c_double,ctypes.c_double,ctypes.c_double,ctypes.c_double,ctypes.c_double,ctypes.c_double,ctypes.c_double,ctypes.c_double,ctypes.c_char_p)
 func.sensitivity_test.restype = None
 
-
+#create a function to be accesible by odeint / could be possible to right this same function on C and see if it works -> To do list
+def simulate_lotka_volterra(u, t, a, b, d, g):
+    x, y = u  # x is prey (hares), y is predator (lynx)
+    dxdt =func.prey_growth_rate(a,b,x,y)# Prey growth and predation
+    dydt =func.predator_growth_rate(d,g,x,y)# Predator reproduction and death
+    return [dxdt, dydt]
 
 #Reads the .csv and plot (pd.read_csv much faster than open etc...)
 Leigh = pd.read_csv("Data/Leigh1968_harelynx.csv") 
@@ -68,13 +73,6 @@ plt.legend()
 # plt.savefig("Outputs/Lotka_Volterra_Simulation.png")
 plt.show()
 
-
-#create a function to be accesible by odeint / could be possible to right this same function on C and see if it works -> To do list
-def simulate_lotka_volterra(u, t, a, b, d, g):
-    x, y = u  # x is prey (hares), y is predator (lynx)
-    dxdt =func.prey_growth_rate(a,b,x,y)# Prey growth and predation
-    dydt =func.predator_growth_rate(d,g,x,y)# Predator reproduction and death
-    return [dxdt, dydt]
 #solve the equation with odeint
 solver = odeint(simulate_lotka_volterra,initial_conditions,t,args=(a, b, d, g))
 prey = solver[:, 0]
@@ -127,7 +125,7 @@ plt.figure(figsize=(14, 6))
 
 plt.subplot(1, 2, 1)
 plt.fill_between(t2, data_prey.max(axis=1), color="lightblue", alpha=0.3, label="Max-Min")
-plt.fill_between(t2, mean_prey - std_prey, mean_prey + std_prey, color="blue", alpha=0.3, label="Mean ± SD Prey Population")
+plt.fill_between(t2, mean_prey - std_prey, mean_prey + std_prey, color="blue", alpha=0.3, label="Mean ± SD")
 plt.plot(t2, mean_prey, color="blue", label="Mean")
 plt.title("Prey")
 plt.xlabel("Time")
@@ -136,7 +134,7 @@ plt.legend(loc='center left', bbox_to_anchor=(1.05, 0.5))
 
 plt.subplot(1, 2, 2)
 plt.fill_between(t2, data_predator.max(axis=1), color="lightcoral", alpha=0.3, label="Max-Min")
-plt.fill_between(t2, mean_predator - std_predator, mean_predator + std_predator, color="red", alpha=0.3, label="Mean ± SD Predator Population")
+plt.fill_between(t2, mean_predator - std_predator, mean_predator + std_predator, color="red", alpha=0.3, label="Mean ± SD")
 plt.plot(t2, mean_predator, color="red", label="Mean")
 plt.title("Predator")
 plt.xlabel("Time")
