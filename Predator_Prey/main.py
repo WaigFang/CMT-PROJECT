@@ -35,6 +35,27 @@ def simulate_lotka_volterra(u, t, a, b, d, g):
     dydt =func.predator_growth_rate(d,g,x,y)# Predator reproduction and death
     return [dxdt, dydt]
 
+# Local sensitivity analysis function
+def local_sensitivity_analysis(fun, pars, times, tiny=1e-8):
+    v_unpert = fun(pars, times)[:, 0]  # Unperturbed values for prey density (x)
+    s_ij = np.zeros((len(times), len(pars) + 1))
+    s_ij[:, 0] = times
+    
+    for j in range(len(pars)):
+        delta = max(tiny, abs(tiny * pars[j]))
+        p_pert = pars.copy()
+        p_pert[j] += delta
+        v_pert = fun(p_pert, times)[:, 0]
+        delta_v = (v_pert - v_unpert)
+        s_ij[:, j + 1] = (delta_v / delta) * (pars[j] / v_unpert)
+    
+    return s_ij
+# Function to solve the Lotka-Volterra model
+def lv_model(pars, times):
+    a, b, d, g = pars
+    solver = odeint(simulate_lotka_volterra, initial_conditions, times, args=(a, b, d, g))
+    return solver
+
 #Reads the .csv and plot (pd.read_csv much faster than open etc...)
 Leigh = pd.read_csv("Data/Leigh1968_harelynx.csv") 
 plt.plot(Leigh["Time"],Leigh["Prey"],label="Prey")
@@ -152,6 +173,29 @@ plt.tight_layout(rect=[0, 0.03, 1, 0.95])
 #plt.savefig("Outputs/Sensitivity_Test.png")
 plt.show()
 
+# Perform local sensitivity analysis
+pars = [a, b, d, g]
+times = np.linspace(0, 50, 201)
+sensitivity_results = local_sensitivity_analysis(lv_model, pars=pars, times=times)
+
+# Convert results to DataFrame for analysis and plotting
+sensitivity_df = pd.DataFrame(sensitivity_results[:, 1:], columns=["alpha", "beta", "delta", "gamma"])
+sensitivity_df["time"] = sensitivity_results[:, 0]
+
+# Plot sensitivity functions as time series
+plt.figure(figsize=(14, 6))
+for col in ["alpha", "beta", "delta", "gamma"]:
+    plt.plot(sensitivity_df["time"], sensitivity_df[col], label=col)
+
+plt.xlabel("Time")
+plt.ylabel("Sensitivity")
+plt.title("Local Sensitivity Analysis")
+plt.legend()
+plt.show()
+
+# Summary of sensitivity results over the time series
+summary_df = sensitivity_df.describe().transpose()
+print(summary_df)
 
 # result = func.population_evolution(56,0.030484, 0.0000057, 0.103447, -0.000020, 21000, 49000)
 # if not result:
