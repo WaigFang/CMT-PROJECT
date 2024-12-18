@@ -98,18 +98,15 @@ plt.legend()
 # plt.savefig("Outputs/Hare_and_Lynx_Density.png")
 plt.show()
 
-
-
-a_values = np.linspace(0.75, 1.25, 10)  # Range of a values
-b_values = np.linspace(0.15, 0.25, 10)  # Range of b values
-# Perform the sensitivity test
-# Perform the sensitivity test
+ # changed the value from 10 to 30 to get more more values => to get a more smooth plot 
+a_values = np.linspace(0.75, 1.25, 30)
+b_values = np.linspace(0.15, 0.25, 30) 
 results_prey = []
 results_predator = []
-t = np.linspace(0, 50, 200)  # Time points
+t2 = np.linspace(0, 50, 200) 
 for a in a_values:
     for b in b_values:
-        solver = odeint(simulate_lotka_volterra, initial_conditions, t, args=(a, b, d, g))
+        solver = odeint(simulate_lotka_volterra, initial_conditions, t2, args=(a, b, d, g))
         prey = solver[:, 0]
         predator = solver[:, 1]
         results_prey.append(prey)
@@ -129,18 +126,18 @@ std_predator = data_predator.std(axis=1)
 plt.figure(figsize=(14, 6))
 
 plt.subplot(1, 2, 1)
-plt.fill_between(t, data_prey.max(axis=1), color="lightblue", alpha=0.3, label="Max-Min")
-plt.fill_between(t, mean_prey - std_prey, mean_prey + std_prey, color="blue", alpha=0.3, label="Mean ± SD Prey Population")
-plt.plot(t, mean_prey, color="blue", label="Mean")
+plt.fill_between(t2, data_prey.max(axis=1), color="lightblue", alpha=0.3, label="Max-Min")
+plt.fill_between(t2, mean_prey - std_prey, mean_prey + std_prey, color="blue", alpha=0.3, label="Mean ± SD Prey Population")
+plt.plot(t2, mean_prey, color="blue", label="Mean")
 plt.title("Prey")
 plt.xlabel("Time")
 plt.ylabel("Density Population")
 plt.legend(loc='center left', bbox_to_anchor=(1.05, 0.5))
 
 plt.subplot(1, 2, 2)
-plt.fill_between(t, data_predator.max(axis=1), color="lightcoral", alpha=0.3, label="Max-Min")
-plt.fill_between(t, mean_predator - std_predator, mean_predator + std_predator, color="red", alpha=0.3, label="Mean ± SD Predator Population")
-plt.plot(t, mean_predator, color="red", label="Mean")
+plt.fill_between(t2, data_predator.max(axis=1), color="lightcoral", alpha=0.3, label="Max-Min")
+plt.fill_between(t2, mean_predator - std_predator, mean_predator + std_predator, color="red", alpha=0.3, label="Mean ± SD Predator Population")
+plt.plot(t2, mean_predator, color="red", label="Mean")
 plt.title("Predator")
 plt.xlabel("Time")
 plt.ylabel("Density Population")
@@ -148,6 +145,7 @@ plt.legend(loc='center left', bbox_to_anchor=(1.05, 0.5))
 
 plt.suptitle("Sensitivity to alpha and beta", fontsize=16)
 plt.tight_layout(rect=[0, 0.03, 1, 0.95])
+#plt.savefig("Outputs/Sensitivity_Test.png")
 plt.show()
 
 
@@ -172,34 +170,6 @@ plt.show()
 
 
 
-
-# func.sensitivity_test(0.75,1.5,0.15,0.25,0.5,0.2,1,2,100,1,b"Outputs/Sensitivity_test.csv")
-
-# # Example 1: Heatmap for average predator population vs Alpha and Beta
-# dataset = pd.read_csv("Outputs/Sensitivity_test.csv")
-# heatmap_data = data.groupby(['Alpha', 'Beta']).mean().reset_index()
-# heatmap_pivot = heatmap_data.pivot("Alpha", "Beta", "Predator")
-# plt.figure(figsize=(10, 8))
-# sns.heatmap(heatmap_pivot, cmap="coolwarm", annot=False, cbar_kws={'label': 'Avg Predator Population'})
-# plt.title("Average Predator Population Sensitivity to Alpha and Beta")
-# plt.xlabel("Beta")
-# plt.ylabel("Alpha")
-# plt.show()
-
-# # Example 2: Line plots of prey and predator population over time for a specific Alpha, Beta pair
-# alpha_value = 1.0  # Example value
-# beta_value = 0.2   # Example value
-
-# subset = data[(data['Alpha'] == alpha_value) & (data['Beta'] == beta_value)]
-
-# plt.figure(figsize=(10, 6))
-# plt.plot(subset['Time'], subset['Prey'], label="Prey Population", color="blue")
-# plt.plot(subset['Time'], subset['Predator'], label="Predator Population", color="red")
-# plt.title(f"Population Dynamics (Alpha={alpha_value}, Beta={beta_value})")
-# plt.xlabel("Time")
-# plt.ylabel("Population")
-# plt.legend()
-# plt.show()
 
 # result = func.population_evolution(56,0.030484, 0.0000057, 0.103447, -0.000020, 21000, 49000)
 # if not result:
