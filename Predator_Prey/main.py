@@ -47,6 +47,9 @@ plt.legend()
 plt.show()
 
 #define parameters for equation 
+# changed the value from 10 to 30 to get more more values => to get a more smooth plot 
+a_values = np.linspace(0.75, 1.25, 30)
+b_values = np.linspace(0.15, 0.25, 30) 
 a = 0.7 
 b = 0.5
 d = 0.2 
@@ -96,11 +99,12 @@ plt.legend()
 # plt.savefig("Outputs/Hare_and_Lynx_Density.png")
 plt.show()
 
- # changed the value from 10 to 30 to get more more values => to get a more smooth plot 
-a_values = np.linspace(0.75, 1.25, 30)
-b_values = np.linspace(0.15, 0.25, 30) 
+
 results_prey = []
 results_predator = []
+alpha_values = []
+beta_values = []
+
 t2 = np.linspace(0, 50, 200) 
 for a in a_values:
     for b in b_values:
@@ -109,6 +113,8 @@ for a in a_values:
         predator = solver[:, 1]
         results_prey.append(prey)
         results_predator.append(predator)
+        alpha_values.append(a)
+        beta_values.append(b)
 
 # Convert results to a DataFrame for analysis and plotting
 data_prey = pd.DataFrame(results_prey).T
@@ -148,8 +154,48 @@ plt.show()
 
 
 
+# Transform the data frame from wide to long format
+data_prey_long = data_prey.melt(var_name='simulation', value_name='abundance')
+data_predator_long = data_predator.melt(var_name='simulation', value_name='abundance')
 
+# Add time and species columns
+data_prey_long['time'] = np.tile(t2, len(data_prey.columns))
+data_prey_long['species'] = 'Prey'
+data_predator_long['time'] = np.tile(t2, len(data_predator.columns))
+data_predator_long['species'] = 'Predator'
 
+# Combine prey and predator data frames
+data_long = pd.concat([data_prey_long, data_predator_long], ignore_index=True)
+
+# Add alpha and beta columns
+num_simulations = len(a_values) * len(b_values)
+data_long['alpha'] = np.repeat(alpha_values, len(t2))
+data_long['beta'] = np.repeat(beta_values, len(t2))
+
+# Summarize the data to calculate the envelopes
+summary_data = data_long.groupby(['species', 'time']).agg(
+    a_mean=('abundance', 'mean'),
+    a_min=('abundance', 'min'),
+    a_max=('abundance', 'max'),
+    a_sd=('abundance', 'std')
+).reset_index()
+
+summary_data['a_psd'] = summary_data['a_mean'] + summary_data['a_sd']
+summary_data['a_msd'] = summary_data['a_mean'] - summary_data['a_sd']
+
+# Plot the results with mean ± sd
+plt.figure(figsize=(14, 6))
+
+for species in ['Prey', 'Predator']:
+    species_data = summary_data[summary_data['species'] == species]
+    plt.fill_between(species_data['time'], species_data['a_msd'], species_data['a_psd'], alpha=0.2)
+    plt.plot(species_data['time'], species_data['a_mean'], label=f'Mean {species} Population')
+
+plt.title("Sensitivity to alpha and beta (mean ± sd)")
+plt.xlabel("Time")
+plt.ylabel("Population density")
+plt.legend(loc='center left', bbox_to_anchor=(1.05, 0.5))
+plt.show()
 
 
 
