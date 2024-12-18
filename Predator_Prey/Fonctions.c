@@ -10,7 +10,6 @@ double predator_growth_rate(double d, double g, double x, double y){ // dy/dt
     return d*x*y - g*y;
 }
 
-
 // Lotka-Volterra simulation
 void simulate_lotka_volterra(double a, double b, double d, double g, double x0, double y0, double t_max, double dt, const char *filename1, const char *filename2) {
     FILE *file1 = fopen(filename1, "w");
@@ -28,21 +27,12 @@ void simulate_lotka_volterra(double a, double b, double d, double g, double x0, 
     }
     fprintf(file2, "Time,dx,dy\n");
 
-
-
-
-
-
     double t = 0.0, x = x0, y = y0;
     while (t <= t_max) {
-        // Add stochasticity (random noise) to prey and predator growth
-        // double noise_x = ((rand() % 200) - 100) / 1000.0;  // Small random noise for prey
-        // double noise_y = ((rand() % 200) - 100) / 1000.0;  // Small random noise for predators
-
         fprintf(file1, "%.2f,%.5f,%.5f\n", t, x, y); // Important it's not same to compute dx and dy and then x and y or dx then x and dy then y 
-        double dx = prey_growth_rate(a, b, x, y); // + noise_x
+        double dx = prey_growth_rate(a, b, x, y);
         x = x + dx * dt;
-        double dy = predator_growth_rate(d, g, x, y); // + noise_y
+        double dy = predator_growth_rate(d, g, x, y); 
         y = y + dy * dt;
         fprintf(file2, "%.2f,%.5f,%.5f\n", t, dx, dy);
         t += dt;
