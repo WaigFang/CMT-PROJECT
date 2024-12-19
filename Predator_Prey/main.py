@@ -24,18 +24,18 @@ func.predator_growth_rate.restype = ctypes.c_double
 
 func.simulate_lotka_volterra.argtypes = (ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_char_p,ctypes.c_char_p)
 func.simulate_lotka_volterra.restype = None
-
+#not using this 
 func.sensitivity_test.argtypes = (ctypes.c_double,ctypes.c_double,ctypes.c_double,ctypes.c_double,ctypes.c_double,ctypes.c_double,ctypes.c_double,ctypes.c_double,ctypes.c_double,ctypes.c_double,ctypes.c_char_p)
 func.sensitivity_test.restype = None
 
-#create a function to be accesible by odeint / could be possible to right this same function on C and see if it works -> To do list
+#create a function to be accesible by odeint 
 def simulate_lotka_volterra(u, t, a, b, d, g):
-    x, y = u  # x is prey (hares), y is predator (lynx)
-    dxdt =func.prey_growth_rate(a,b,x,y)# Prey growth and predation
-    dydt =func.predator_growth_rate(d,g,x,y)# Predator reproduction and death
+    x, y = u  
+    dxdt =func.prey_growth_rate(a,b,x,y)
+    dydt =func.predator_growth_rate(d,g,x,y)
     return [dxdt, dydt]
 
-# Local sensitivity analysis function
+# Local sensitivity analysis function (would like to change fun pars times and tiny names)
 def local_sensitivity_analysis(fun, pars, times, tiny=1e-8):
     v_unpert = fun(pars, times)[:, 0]  # Unperturbed values for prey density (x)
     s_ij = np.zeros((len(times), len(pars) + 1))
@@ -50,6 +50,7 @@ def local_sensitivity_analysis(fun, pars, times, tiny=1e-8):
         s_ij[:, j + 1] = (delta_v / delta) * (pars[j] / v_unpert)
     
     return s_ij
+
 # Function to solve the Lotka-Volterra model
 def lv_model(pars, times):
     a, b, d, g = pars
