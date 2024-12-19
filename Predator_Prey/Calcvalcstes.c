@@ -21,27 +21,15 @@ int main() {
         return 1; // Terminer le programme en cas d'erreur
     }
 
-    // Lire les données à partir du fichier
-//    printf("\nLecture des données...\n"); // Indiquer qu'on commence la lecture des données
-//    while (fscanf(file, "%d,%d,%d", &annees[count], &lievres[count], &lynx[count]) == 3) {
-//        printf("Lue : Année = %d, Lièvres = %d, Lynx = %d\n", annees[count], lievres[count], lynx[count]);
-//        count++;
-//        if (count >= MAX_LINES) {
-//            printf("Erreur : trop de lignes dans le fichier.\n");
-//            break;
-//        }
-//    }  Avec fscanf ca ne marche pas et doinc nous devons trouver une autre méthodes
-
-// Affichage des données brutes
+    // Affichage des données brutes
     char buffer[256];
     printf("Années avec populations de lièvres et lynx :\n");
-while (fgets(buffer, sizeof(buffer), file)) {
-    if (sscanf(buffer, "%d,%d,%d", &annees[count], &lievres[count], &lynx[count]) == 3) {
-        printf("Année = %d, Lièvres = %d, Lynx = %d\n", annees[count], lievres[count], lynx[count]);
-        count++;
+    while (fgets(buffer, sizeof(buffer), file)) {
+        if (sscanf(buffer, "%d,%d,%d", &annees[count], &lievres[count], &lynx[count]) == 3) {
+            printf("Année = %d, Lièvres = %d, Lynx = %d\n", annees[count], lievres[count], lynx[count]);
+            count++;
+        }
     }
-}
-
 
     // Initialisation des variables
     double L0 = lievres[0]; // Population initiale des lièvres
@@ -104,7 +92,26 @@ while (fgets(buffer, sizeof(buffer), file)) {
     printf("Moyenne de Gamma = %.6f\n", mean_gamma);
     printf("Moyenne de Delta = %.6f\n", mean_delta);
 
-        // Fermer le fichier
+    // Enregistrement des moyennes dans un fichier CSV
+    char output_filename[] = "../Outputs/mean_estimated_parameters.csv";
+
+    // Ouvrir le fichier en écriture
+    FILE *output_file = fopen(output_filename, "w");
+    if (output_file == NULL) {
+        printf("Erreur : impossible de créer le fichier %s.\n", output_filename);
+        return 1; // Terminer en cas d'erreur
+    }
+
+    // Écrire les paramètres en première ligne
+    fprintf(output_file, "Alpha, Beta, Delta, Gamma\n");
+
+    // Écrire les valeurs des moyennes en deuxième ligne
+    fprintf(output_file, "%.6f, %.6f, %.6f, %.6f\n", mean_alpha, mean_beta, mean_delta, mean_gamma);
+
+    // Fermer le fichier de sortie
+    fclose(output_file);
+
+    // Fermer le fichier principal
     fclose(file);
     return 0;
-    }
+}
