@@ -11,7 +11,7 @@ The program will:
 4. Plot solutions over time in "*Outputs/Lotka_Volterra_Solutions.png*",
 5. Plot population density in "*Outputs/Hare_and_Lynx_Density.png*",
 6. Plot the sensitivity of alpha and beta for the population density in "*Outputs/Sensitivity_Test.png"*",
-7. 
+7. Plots the local sensitivity to conduct a test in the report in "*Outputs/Local_Sensitivity_Analysis.png*"
 
 ## Project structure
 - "*Data/*" contains input data,
@@ -32,7 +32,7 @@ Outputs:
 - "*Outputs/Lotka_Volterra_Solutions.png*", is an image file,
 - "*Outputs/Hare_and_Lynx_Density.png*" is an image file,
 - "*Outputs/Sensitivity_Test.png"*" is an image file,
-- "*XXXX*" is an image file.
+- "*Outputs/Local_Sensitivity_Analysis.png*" is an image file.
 
 ### Implementation details
 Overview: 
@@ -48,8 +48,6 @@ Structure in the directory "*Predator_Prey/*":
   - reads in "*Data/Leigh1968_harelynx.csv*" and makes a plot,
   - uses all of functions provieded by "*clib.so*" to find the solution to the 
     Lotka-Volterra equations and plots them,
-
-(FALTA ALGO AQUI CREO PERO NO SE QUE ES PROJECT ROOT DIRECTORY IS ASSIGNED USING ?) 
 
 
 ## Instructions

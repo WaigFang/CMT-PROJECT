@@ -204,6 +204,7 @@ plt.xlabel("Time")
 plt.ylabel("Sensitivity")
 plt.title("Local Sensitivity Analysis")
 plt.legend()
+#plt.savefig("Outputs/Local_Sensitivity_Analysis.png")
 plt.show()
 
 # Summary of sensitivity results over the time series
