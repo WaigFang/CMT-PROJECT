@@ -12,6 +12,7 @@ The program will:
 5. Plot population density in "*Outputs/Hare_and_Lynx_Density.png*",
 6. Plot the sensitivity of alpha and beta for the population density in "*Outputs/Sensitivity_Test.png"*",
 7. Plots the local sensitivity to conduct a test in the report in "*Outputs/Local_Sensitivity_Analysis.png*"
+8. Create a table with a summary of our sensitivity analysis in ""Outputs/summary.csv""
 
 ## Project structure
 - "*Data/*" contains input data,
@@ -29,10 +30,11 @@ Outputs:
 - "*Outputs/dx_dy_data.csv*" is a comma-separated file,
 - "*Outputs/Lotka_Volterra_Data.csv*" is a comma-separated file,
 - "*Outputs/Lotka_Volterra_Simulation.png*" is an image file,
-- "*Outputs/Lotka_Volterra_Solutions.png*", is an image file,
+- "*Outputs/Lotka_Volterra_Solutions.png*" is an image file,
 - "*Outputs/Hare_and_Lynx_Density.png*" is an image file,
 - "*Outputs/Sensitivity_Test.png"*" is an image file,
-- "*Outputs/Local_Sensitivity_Analysis.png*" is an image file.
+- "*Outputs/Local_Sensitivity_Analysis.png*" is an image file,
+- "*"Outputs/summary.csv*" is a comma-separated file.
 
 ### Implementation details
 Overview: 
