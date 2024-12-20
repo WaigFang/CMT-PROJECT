@@ -67,12 +67,12 @@ make clean
 ```{sh}
 make run
 ```
- this command will check if the bin and Outputs exists. Compile the code and then execute the code.
+ this command will check if the bin and Outputs folders exists.Then compile the code and after that execute the code.
 
 ## Requirements
 
 We provide the versions of Python and C that were used for this program: 
-[ask in VSCODE AND COPY]
+
 python = 3.12.4
 gcc = 13.2.0 
 
