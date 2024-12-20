@@ -4,6 +4,7 @@ LIBS = -lm
 
 SRC_DIR = Predator_Prey
 BIN_DIR = bin
+OUTPUTS_DIR = Outputs
 
 # Targets
 SHARED_LIB = $(BIN_DIR)/clib.so
@@ -15,26 +16,46 @@ OBJ = $(BIN_DIR)/functions.o
 DEPS = $(SRC_DIR)/functions.h
 
 # Default target: build clib.so and .exe
-all: $(SHARED_LIB) $(EXECUTABLE)
+all: $(BIN_DIR) $(OUTPUTS_DIR) $(SHARED_LIB) $(EXECUTABLE)
+
+# Ensure bin and outputs directories exist
+$(BIN_DIR):
+	@mkdir -p $(BIN_DIR)
+	@echo "Created $(BIN_DIR) directory."
+
+$(OUTPUTS_DIR):
+	@mkdir -p $(OUTPUTS_DIR)
+	@echo "Created $(OUTPUTS_DIR) directory."
+
+
+
+
+
 
 # Compile functions.c into clib.so
 $(BIN_DIR)/functions.o: $(SRC_DIR)/functions.c $(DEPS)
 	$(CC) $(CFLAGS) -o $@ -c $<
+	@echo "Compiled: $< -> $@"
 
 $(SHARED_LIB): $(OBJ)
 	$(CC) -shared -o $@ $^
+	@echo "Built shared library: $@"
 
 # Compile Calcvalcstes.c into a .exe
 $(EXECUTABLE): $(SRC_DIR)/Calcvalcstes.c
 	$(CC) $(CFLAGS) -o $@ $< $(LIBS)
+	@echo "Built executable: $@"
 
 # Clean
 clean:
-	rm -f $(BIN_DIR)/*.o $(BIN_DIR)/*.so $(BIN_DIR)/*calcvalcstes
-	rmdir $(BIN_DIR)
+	@rm -f $(BIN_DIR)/*.o $(BIN_DIR)/*.so $(BIN_DIR)/*calcvalcstes
+	@rm -rf $(OUTPUTS_DIR)/*
+	@echo "Cleaned build artifacts and outputs"
+	@rmdir --ignore-fail-on-non-empty $(BIN_DIR) || true
+	@rmdir --ignore-fail-on-non-empty $(OUTPUTS_DIR) || true
+	@echo "Removed empty directories if possible"
 
-# Create bin directory if it doesn't exist 
-$(shell mkdir -p $(BIN_DIR))
+
 
 # Run Both Codes 
 run: all
