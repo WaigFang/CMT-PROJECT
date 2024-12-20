@@ -28,7 +28,7 @@ def simulate_lotka_volterra(u, t, a, b, d, g):
     dydt =func.predator_growth_rate(d,g,x,y)
     return [dxdt, dydt]
 
-# Local sensitivity analysis function (would like to change fun pars times and tiny names)
+# Local sensitivity analysis function 
 def local_sensitivity_analysis(fun, pars, times, tiny=1e-8):
     v_unpert = fun(pars, times)[:, 0]  # Unperturbed values for prey density (x)
     s_ij = np.zeros((len(times), len(pars) + 1))
