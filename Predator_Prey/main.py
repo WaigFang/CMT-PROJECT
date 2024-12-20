@@ -58,7 +58,7 @@ plt.title("Hare and Lynx Population over Time")
 plt.xlabel("Time")
 plt.ylabel("Population")
 plt.legend()
-# plt.savefig("Outputs/Hare_and_Lynx_Populations.png")
+plt.savefig("Outputs/Hare_and_Lynx_Populations.png")
 plt.show()
 
 #define parameters for equation 
@@ -88,7 +88,7 @@ plt.xlabel("Time")
 plt.ylabel("Population")
 plt.title("Lotka-Volterra Simulation of Prey and Predator Population over Time")
 plt.legend()
-# plt.savefig("Outputs/Lotka_Volterra_Simulation_with_Estimated_Parameters.png")
+plt.savefig("Outputs/Lotka_Volterra_Simulation_with_Estimated_Parameters.png")
 plt.show()
 
 #read
@@ -101,7 +101,7 @@ plt.xlabel("Time")
 plt.ylabel("Population")
 plt.title("Lotka-Volterra Simulation of Prey and Predator Population over Time")
 plt.legend()
-# plt.savefig("Outputs/Lotka_Volterra_Simulation.png")
+plt.savefig("Outputs/Lotka_Volterra_Simulation.png")
 plt.show()
 
 #solve the equation with odeint
@@ -116,15 +116,15 @@ plt.title("Population Density over time of the Lotka-Volterra equation")
 plt.xlabel("Time")
 plt.ylabel("Population Density")
 plt.legend()
-# plt.savefig("Outputs/Lotka_Volterra_Solutions.png")
+plt.savefig("Outputs/Lotka_Volterra_Solutions.png")
 plt.show()
-#plot pop density 
+#plot  density 
 plt.plot(prey,predator,label="Population Density",color="blue")
 plt.xlabel("Hare Density")
 plt.ylabel("Lynx Density")
 plt.title("Hare and Lynx Density")
 plt.legend()
-# plt.savefig("Outputs/Hare_and_Lynx_Density.png")
+plt.savefig("Outputs/Hare_and_Lynx_Density.png")
 plt.show()
 
 
@@ -177,7 +177,7 @@ plt.legend(loc="center left", bbox_to_anchor=(1.05, 0.5))
 
 plt.suptitle("Sensitivity to alpha and beta", fontsize=16)
 plt.tight_layout(rect=[0, 0.03, 1, 0.95])
-#plt.savefig("Outputs/Sensitivity_Test.png")
+plt.savefig("Outputs/Sensitivity_Test.png")
 plt.show()
 
 # Perform local sensitivity analysis
@@ -198,7 +198,7 @@ plt.xlabel("Time")
 plt.ylabel("Sensitivity")
 plt.title("Local Sensitivity Analysis")
 plt.legend()
-#plt.savefig("Outputs/Local_Sensitivity_Analysis.png")
+plt.savefig("Outputs/Local_Sensitivity_Analysis.png")
 plt.show()
 
 # Summary of sensitivity results over the time series
