@@ -49,9 +49,6 @@ clean:
 	@rm -f $(BIN_DIR)/*.o $(BIN_DIR)/*.so $(BIN_DIR)/*calcvalcstes
 	@rm -rf $(OUTPUTS_DIR)/*
 	@echo "Cleaned build artifacts and outputs"
-	@rmdir --ignore-fail-on-non-empty $(BIN_DIR) || true
-	@rmdir --ignore-fail-on-non-empty $(OUTPUTS_DIR) || true
-	@echo "Removed empty directories if possible"
 
 
 

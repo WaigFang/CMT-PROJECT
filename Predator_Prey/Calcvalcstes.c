@@ -24,7 +24,6 @@ int main() {
     printf("Years and hare and lynx populations :\n");
     while (fgets(buffer, sizeof(buffer), file)) {
         if (sscanf(buffer, "%d,%d,%d", &years[count], &hares[count], &lynx[count]) == 3) {
-            printf("Years = %d, Hares = %d, Lynx = %d\n", years[count], hares[count], lynx[count]);
             count++;
         }
     }
