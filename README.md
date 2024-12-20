@@ -59,12 +59,13 @@ To reproduce results in the report:
   make clean
   ```
 
- this command will clean your /bin and /Outputs folders
+ this command will clean your /bin and /Outputs folders.
  
 -Then to execute all of the code run: 
   ```{sh}
   make run
   ```
+this command will create a /bin and /Outputs folder and then execute the code.
 
 ## Requirements
 
