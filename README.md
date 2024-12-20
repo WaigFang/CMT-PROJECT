@@ -38,7 +38,7 @@ Outputs:
 
 ### Implementation details
 Overview: 
-- We used C as our main language, in which we created fuctions, to perform all of the needed calculations. This program is then compiled into a shared library called clib.so that will be used by Python via the `ctypes` module.
+- We used C to create fuctions, to perform all of the needed calculations. This program is then compiled into a shared library called clib.so that will be used by Python via the `ctypes` module.
 - Python handles most of the I/O, this includes reading csv files and then outputing tables and plots.
 
 Structure in the directory "*Predator_Prey/*":
