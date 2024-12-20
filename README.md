@@ -67,7 +67,7 @@ make clean
 ```{sh}
 make run
 ```
- this command will create a /bin and /Outputs folder and then execute the code.
+ this command will check if the bin and Outputs exists. Compile the code and then execute the code.
 
 ## Requirements
 
