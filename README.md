@@ -53,11 +53,14 @@ Structure in the directory "*Predator_Prey/*":
 ## Instructions
 
 To reproduce results in the report:
+
  -If the code was already executed or you find files in the Outputs folder run this command:
   ```{sh}
   make clean
   ```
+
  this command will clean your /bin and /Outputs folders
+ 
 -Then to execute all of the code run: 
   ```{sh}
   make run
