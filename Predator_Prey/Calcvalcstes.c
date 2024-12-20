@@ -100,7 +100,7 @@ int main() {
     }
 
     
-    fprintf(output_file, "Alpha, Beta, Delta, Gamma\n");
+    fprintf(output_file, "Alpha,Beta,Delta,Gamma\n");
 
     fprintf(output_file, "%.6f, %.6f, %.6f, %.6f\n", mean_alpha, mean_beta, mean_delta, mean_gamma);
 

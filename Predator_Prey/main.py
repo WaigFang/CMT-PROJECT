@@ -78,7 +78,8 @@ t = np.linspace(0, 100, 1000)
 func.simulate_lotka_volterra(a, b, d, g, x0, y0,100.0,1.0,b"Outputs/lotka_volterra_data.csv",b"Outputs/dx_dy_data.csv") # alpha,beta,gamma,delta,x0,y0,max time,dt,file name 
 # a = 1 , b = 0.2 , d = 0.5 , g = 0.2 with x=1 y=2 works also for x=y=2
 
-func.simulate_lotka_volterra(0.030484, 0.0000057, 0.103447, -0.000020, 21000.0, 49000.0,100.0,1.0,b"Outputs/lotka_volterra_data_with_estimated_parameters.csv",b"Outputs/dx_dy_with_estimated_parameters.csv")
+estimated_parameters = pd.read_csv("Outputs/mean_estimated_parameters.csv")
+func.simulate_lotka_volterra(estimated_parameters["Alpha"], estimated_parameters["Beta"], estimated_parameters["Delta"], estimated_parameters["Gamma"], 21000.0, 49000.0,100.0,1.0,b"Outputs/lotka_volterra_data_with_estimated_parameters.csv",b"Outputs/dx_dy_with_estimated_parameters.csv")
 
 data_estimated = pd.read_csv("Outputs/lotka_volterra_data_with_estimated_parameters.csv")
 plt.plot(data_estimated["Time"], data_estimated["Prey"], label="Prey")
