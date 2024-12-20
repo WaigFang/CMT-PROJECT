@@ -2,7 +2,7 @@
 
 ## Project description
 
-Our program's aim is to study the population growth and change over time of a system consisting of predators and their's preys. Thanks to the Lotka-Volterra equations.
+Our program's aim is to study the population growth and change over time of a system consisting of predators and their preys. Thanks to the Lotka-Volterra equations.
 
 The program will:
 1. Read Hare and lynx data found in "*Data/Leigh1968_harelynx.csv*",
