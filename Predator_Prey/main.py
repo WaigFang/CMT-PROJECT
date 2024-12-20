@@ -24,9 +24,6 @@ func.predator_growth_rate.restype = ctypes.c_double
 
 func.simulate_lotka_volterra.argtypes = (ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_char_p,ctypes.c_char_p)
 func.simulate_lotka_volterra.restype = None
-#not using this 
-func.sensitivity_test.argtypes = (ctypes.c_double,ctypes.c_double,ctypes.c_double,ctypes.c_double,ctypes.c_double,ctypes.c_double,ctypes.c_double,ctypes.c_double,ctypes.c_double,ctypes.c_double,ctypes.c_char_p)
-func.sensitivity_test.restype = None
 
 #create a function to be accesible by odeint 
 def simulate_lotka_volterra(u, t, a, b, d, g):

@@ -13,7 +13,7 @@ PYTHON_SCRIPT = $(SRC_DIR)/main.py
 
 # Object files and dependencies
 OBJ = $(BIN_DIR)/functions.o
-DEPS = $(SRC_DIR)/functions.h
+
 
 # Default target: build clib.so and .exe
 all: $(BIN_DIR) $(OUTPUTS_DIR) $(SHARED_LIB) $(EXECUTABLE)
@@ -26,8 +26,6 @@ $(BIN_DIR):
 $(OUTPUTS_DIR):
 	@mkdir -p $(OUTPUTS_DIR)
 	@echo "Created $(OUTPUTS_DIR) directory."
-
-
 
 
 

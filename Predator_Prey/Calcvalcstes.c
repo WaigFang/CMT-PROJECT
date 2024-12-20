@@ -12,7 +12,7 @@ int main() {
     int count = 0; // Compteur pour le nombre de lignes lues
 
     // Définir le chemin du fichier
-    char filename[] = "../Data/Leigh1968_harelynx.csv";
+    char filename[] = "Data/Leigh1968_harelynx.csv";
 
     // Ouvrir le fichier en lecture
     FILE *file = fopen(filename, "r");
@@ -93,7 +93,7 @@ int main() {
     printf("Moyenne de Delta = %.6f\n", mean_delta);
 
     // Enregistrement des moyennes dans un fichier CSV
-    char output_filename[] = "../Outputs/mean_estimated_parameters.csv";
+    char output_filename[] = "Outputs/mean_estimated_parameters.csv";
 
     // Ouvrir le fichier en écriture
     FILE *output_file = fopen(output_filename, "w");
