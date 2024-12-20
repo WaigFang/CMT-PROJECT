@@ -75,6 +75,11 @@ We provide the versions of Python and C that were used for this program:
 
 python = 3.12.4
 gcc = 13.2.0 
+numpy = 1.26.4 
+pywin32-ctypes=0.2.2
+pandas = 2.2.2
+scipy = 1.13.1
+
 
 You can also see more precisely the requirements in "*requirements.txt*" file for Python modules. This file was generated with the command: 
 ```{sh}
