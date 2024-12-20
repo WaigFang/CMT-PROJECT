@@ -113,18 +113,18 @@ prey = solver[:, 0]
 predator = solver[:, 1]
 #plot results over time 
 plt.figure(figsize=(10, 6))
-plt.plot(t, prey, label='Hare Population (Prey)', color='blue')
-plt.plot(t, predator, label='Lynx Population (Predator)', color='red')
-plt.title('Solutions of the Lotka-Volterra equation')
+plt.plot(t, prey, label='Prey Density', color='blue')
+plt.plot(t, predator, label='Predator Density', color='red')
+plt.title('Population Density over time of the Lotka-Volterra equation')
 plt.xlabel('Time')
-plt.ylabel('Population')
+plt.ylabel('Population Density')
 plt.legend()
 # plt.savefig("Outputs/Lotka_Volterra_Solutions.png")
 plt.show()
 #plot pop density 
-plt.plot(prey,predator,label="Population",color="blue")
-plt.xlabel("Hare Population")
-plt.ylabel("Lynx Population")
+plt.plot(prey,predator,label="Population Density",color="blue")
+plt.xlabel("Hare Density")
+plt.ylabel("Lynx Density")
 plt.title("Hare and Lynx Density")
 plt.legend()
 # plt.savefig("Outputs/Hare_and_Lynx_Density.png")
@@ -205,6 +205,7 @@ plt.legend()
 plt.show()
 
 # Summary of sensitivity results over the time series
+
 summary_df = sensitivity_df.describe().transpose()
 print(summary_df)
 
