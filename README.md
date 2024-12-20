@@ -55,6 +55,10 @@ Structure in the directory "*Predator_Prey/*":
 ## Instructions
 
 To reproduce results in the report:
+ - Make sure you are in the correct directory:
+```{sh}
+cd CMT-PROJECT/
+```   
 
  - If the code was already executed or you find files in the Outputs folder run this command:
 ```{sh}
