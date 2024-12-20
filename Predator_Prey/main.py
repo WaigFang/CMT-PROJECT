@@ -201,7 +201,6 @@ plt.legend()
 plt.show()
 
 # Summary of sensitivity results over the time series
-
-summary_df = sensitivity_df.describe().transpose()
-print(summary_df)
+summary_df = sensitivity_df.describe(include='all')
+print(summary_df.transpose())
 
