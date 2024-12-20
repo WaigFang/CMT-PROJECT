@@ -1,15 +1,11 @@
 import numpy as np
-import math as m
 import matplotlib.pyplot as plt
-import csv
 import ctypes
-import os
 import sys
 from pathlib import Path
 import pandas as pd
 from scipy.integrate import odeint
-import seaborn as sns
-import itertools
+
 
 #locate the clib.so library 
 lib_path = Path(sys.path[0]).parent 
